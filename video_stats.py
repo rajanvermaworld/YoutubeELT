@@ -1,5 +1,6 @@
 import requests
 import json
+from datetime import date
 
 import os
 from dotenv import load_dotenv
@@ -96,9 +97,16 @@ def get_video_data(video_ids):
     except Exception as e:
         print(f"Error occurred: {e}")
 
+def save_to_json (get_data):
+
+    file_path = f"./data/youtube_data_{date.today()}.json"
+
+    with open(file_path, "w", encoding='utf-8') as json_output:
+              json.dump(get_data, json_output, indent=4, ensure_ascii=False)
 
 
 if __name__ == "__main__":
     playlistId = get_playlist_id()
     video_ids = (get_video_ids(playlistId)) 
-    print(get_video_data(video_ids))
+    video_data = get_video_data(video_ids)
+    save_to_json(video_data)
